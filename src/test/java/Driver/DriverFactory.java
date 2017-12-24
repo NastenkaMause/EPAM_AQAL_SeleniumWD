@@ -8,9 +8,10 @@ import java.util.concurrent.TimeUnit;
 
 public abstract class DriverFactory {
 
-    public static WebDriver getDriver(String browser) {
+    public static WebDriver getDriver() {
 
         WebDriver driver = null;
+        String browser = System.getProperty("browser");
 
             switch (browser) {
                 case "chrome":
@@ -22,7 +23,7 @@ public abstract class DriverFactory {
                     driver = new FirefoxDriver();
                     break;
                 default:
-                    System.out.println("Invalid browser name");
+                    System.out.println("Invalid browser to");
             }
 
         driver.manage().window().maximize();

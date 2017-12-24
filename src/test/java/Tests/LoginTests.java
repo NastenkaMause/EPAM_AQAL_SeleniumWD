@@ -4,17 +4,13 @@ import Driver.DriverFactory;
 import Pages.AfterLoginForm;
 import Pages.BasePage;
 import Pages.LoginForm;
-import User.UserFactory;
 import User.User;
+import User.UserFactory;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.PageFactory;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-import org.testng.annotations.Parameters;
+import org.testng.annotations.*;
 
-public class TestA {
+public class LoginTests {
 
     WebDriver driver;
 
@@ -23,16 +19,29 @@ public class TestA {
     public void setUp(String browser) {
         System.out.println("*******************");
         System.out.println("launching browser");
-        driver = DriverFactory.getDriver(browser);
+        System.setProperty("browser", browser);
+        driver = DriverFactory.getDriver();
+    }
+
+    @BeforeMethod
+    public void setUpTest(){
         driver.navigate().to(BasePage.BASE_URL);
     }
 
     @Test
     public void validUserLogin() {
-        LoginForm loginForm = PageFactory.initElements(driver, LoginForm.class);
+        LoginForm loginForm = new LoginForm(driver);
         User user = UserFactory.getValidUser();
         AfterLoginForm validForm = loginForm.login(user, true, AfterLoginForm.class);
-        Assert.assertEquals(validForm.userLoginEmail, user.name);
+        Assert.assertEquals(validForm.userLoginEmail.getText(), user.name);
+    }
+
+    @Test
+    public void invalidUserLogin() {
+        LoginForm loginForm = new LoginForm(driver);
+        User user = UserFactory.getNotValidUser();
+        loginForm = loginForm.login(user, true, LoginForm.class);
+        Assert.assertTrue(loginForm.incorectInputError.isDisplayed());
     }
 
     @AfterClass
@@ -42,5 +51,4 @@ public class TestA {
             driver.quit();
         }
     }
-
 }

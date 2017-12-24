@@ -11,8 +11,8 @@ public class DriverMethods implements WebDriver {
 
     WebDriver driver;
 
-    public DriverMethods(WebDriver driver) {
-        this.driver = driver;
+    public DriverMethods() {
+        driver = DriverFactory.getDriver();
     }
 
     @Override

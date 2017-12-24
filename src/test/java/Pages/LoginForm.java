@@ -1,17 +1,16 @@
 package Pages;
 
 import User.User;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 
-import java.util.List;
-
 public class LoginForm extends BasePage {
 
-	@FindBy(name="name")
+	@FindBy(name="login")
 	private WebElement name;
 
 	@FindBy(name="pass")
@@ -27,10 +26,11 @@ public class LoginForm extends BasePage {
 	private WebElement authButton;
 
 	@FindBy (css = ".content.clear")
-	protected WebElement incorectInputError;
+	public WebElement incorectInputError;
 
 	public LoginForm(WebDriver driver) {
 		super(driver);
+		PageFactory.initElements(driver, this);
 	}
 
 	protected LoginForm setName(String name) {
@@ -46,14 +46,8 @@ public class LoginForm extends BasePage {
 	}
 
 	protected LoginForm setDomain(String domain){
-		List<WebElement> options = this.domain.getOptions();
-		for (WebElement item:options) {
-			if (item.getAttribute("value").equals(domain))
-			{
-				item.click();
-				break;
-			}
-		}
+		Select dropdownList = new Select(driver.findElement(By.name("domn")));
+		dropdownList.selectByValue(domain);
 		return this;
 	}
 
@@ -72,7 +66,7 @@ public class LoginForm extends BasePage {
 
 	public <T extends BasePage> T login (User user, boolean rememberMe, Class<T> page)
 	{
-		this.setName(user.name);
+		this.setName(user.login);
 		this.setPassword(user.password);
 		this.setDomain(user.domain);
 		this.rememberMe(rememberMe);

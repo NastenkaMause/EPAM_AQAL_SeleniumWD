@@ -3,21 +3,23 @@
 
 <suite name = "Suite1">
 
-    <test name = "exampletest1">
+    <test name = "FirefoxSession">
 
         <parameter name = "browser" value="firefox"/>
 
         <classes>
-            <class name = "Tests.TestA" />
+            <class name = "Tests.LoginTests" />
+            <class name = "Tests.SendEmailTests" />
         </classes>
     </test>
 
-    <test name = "exampletest2">
+    <test name = "ChromeSession">
 
         <parameter name = "browser" value="chrome"/>
 
         <classes>
-            <class name = "Tests.TestA" />
+            <class name = "Tests.LoginTests" />
+            <class name = "Tests.SendEmailTests" />
         </classes>
     </test>
 
