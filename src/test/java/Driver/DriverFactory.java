@@ -23,7 +23,7 @@ public abstract class DriverFactory {
                     driver = new FirefoxDriver();
                     break;
                 default:
-                    System.out.println("Invalid browser to");
+                    System.out.println("Invalid browser name");
             }
 
         driver.manage().window().maximize();
